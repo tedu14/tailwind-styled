@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    /* Language and Environment */
+    "target": "ES2015",
+    "lib": ["ES2015", "DOM", "DOM.Iterable"],
+    "jsx": "react",
+
+    /* Modules */
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+
+    /* Emit */
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "declarationDir": "./dist",
+    "removeComments": false,
+    "importHelpers": false,
+
+    /* Interop Constraints */
+    "isolatedModules": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Type Checking */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": true,
+
+    /* Completeness */
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "**/*.spec.ts", "**/*.test.ts"]
+}

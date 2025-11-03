@@ -1,0 +1,52 @@
+# Source files
+src/
+*.ts
+!*.d.ts
+
+# Config files
+tsconfig.json
+vite.config.ts
+.gitignore
+
+# Development files
+node_modules/
+.vscode/
+.idea/
+*.log
+*.lock
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+
+# Build artifacts
+*.tsbuildinfo
+
+# Documentation (keep README)
+# docs/
+
+# Test files
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+**/*.spec.tsx
+__tests__/
+coverage/
+
+# Example/Demo files
+examples/
+demo/
+index.html
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+
+# Other
+.DS_Store
+.env
+.env.local
+*.swp
+*.swo
+*~
+
