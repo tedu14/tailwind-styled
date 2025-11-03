@@ -10,7 +10,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tedu14/tailwind-styled"
+    "url": "git+https://github.com/tedu14/tailwind-styled.git"
   },
   "homepage": "https://github.com/tedu14/tailwind-styled#readme",
   "bugs": {
