@@ -21,7 +21,8 @@ package-lock.json
 # Build artifacts
 *.tsbuildinfo
 
-# Documentation (keep README)
+# Documentation (keep README, LICENSE, CHANGELOG)
+PUBLISH.md
 # docs/
 
 # Test files

@@ -12,7 +12,10 @@
     "type": "git",
     "url": "https://github.com/tedu14/tailwind-styled"
   },
-  "homepage": "https://github.com/tedu14/tailwind-styled",
+  "homepage": "https://github.com/tedu14/tailwind-styled#readme",
+  "bugs": {
+    "url": "https://github.com/tedu14/tailwind-styled/issues"
+  },
   "keywords": [
     "tailwind",
     "tailwindcss",
