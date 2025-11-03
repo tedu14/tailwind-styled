@@ -1,8 +1,8 @@
-# 🎨 tailwind-styled
+# 🎨 tailwindcss-styled
 
 Uma biblioteca para construir componentes estilizados com Tailwind CSS no React, inspirada no styled-components.
 
-[![npm version](https://img.shields.io/npm/v/tailwind-styled.svg)](https://www.npmjs.com/package/tailwind-styled)
+[![npm version](https://img.shields.io/npm/v/tailwindcss-styled.svg)](https://www.npmjs.com/package/tailwindcss-styled)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## 💡 Motivação
@@ -52,7 +52,7 @@ const Button = tw.button`
 Apesar do nome similar, esta biblioteca **NÃO** é CSS-in-JS:
 
 - ❌ **styled-components** = CSS-in-JS = Mais peso no bundle final
-- ✅ **tailwind-styled** = Apenas classes Tailwind = Leve e performático
+- ✅ **tailwindcss-styled** = Apenas classes Tailwind = Leve e performático
 
 Esta lib combina o melhor dos dois mundos: **a sintaxe elegante do styled-components com a leveza e performance do Tailwind CSS**.
 
@@ -70,25 +70,25 @@ Esta lib combina o melhor dos dois mundos: **a sintaxe elegante do styled-compon
 ## 📦 Instalação
 
 ```bash
-npm install tailwind-styled
+npm install tailwindcss-styled
 ```
 
 ou
 
 ```bash
-yarn add tailwind-styled
+yarn add tailwindcss-styled
 ```
 
 ou
 
 ```bash
-pnpm add tailwind-styled
+pnpm add tailwindcss-styled
 ```
 
 ## 🚀 Uso Básico
 
 ```tsx
-import tw from "tailwind-styled";
+import tw from "tailwindcss-styled";
 
 // Criar um componente estilizado
 const Button = tw.button`
@@ -110,7 +110,7 @@ function App() {
 ### Componentes HTML Básicos
 
 ```tsx
-import tw from "tailwind-styled";
+import tw from "tailwindcss-styled";
 
 const Container = tw.div`
   max-w-7xl mx-auto
@@ -134,7 +134,7 @@ const Card = tw.article`
 Use funções para acessar props e aplicar classes condicionalmente:
 
 ```tsx
-import tw from "tailwind-styled";
+import tw from "tailwindcss-styled";
 
 interface ButtonProps {
   variant?: "primary" | "secondary" | "danger";
@@ -179,7 +179,7 @@ const Button = tw.button<ButtonProps>`
 Você também pode estilizar componentes React existentes:
 
 ```tsx
-import tw from "tailwind-styled";
+import tw from "tailwindcss-styled";
 import { Link } from "react-router-dom";
 
 const StyledLink = tw(Link)`
@@ -312,7 +312,7 @@ A biblioteca é totalmente tipada e oferece:
 - Suporte completo para refs tipadas
 
 ```tsx
-import tw from "tailwind-styled";
+import tw from "tailwindcss-styled";
 import type { ComponentPropsWithoutRef } from "react";
 
 interface CustomProps extends ComponentPropsWithoutRef<"button"> {

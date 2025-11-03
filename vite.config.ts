@@ -5,8 +5,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, "src/index.ts"),
-      name: "TailwindStyled",
-      fileName: (format) => `tailwind-styled.${format}.js`,
+      name: "TailwindcssStyled",
+      fileName: (format) => `tailwindcss-styled.${format}.js`,
       formats: ["es", "cjs"],
     },
     rollupOptions: {
