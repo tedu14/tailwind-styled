@@ -85,6 +85,110 @@ ou
 pnpm add tailwindcss-styled
 ```
 
+## ⚙️ Configuração do Editor (VS Code)
+
+Para ter **autocomplete** e **IntelliSense** do Tailwind dentro dos template literals, configure a extensão [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss):
+
+### 1. Instale a extensão
+
+```bash
+# Via VS Code
+code --install-extension bradlc.vscode-tailwindcss
+```
+
+Ou busque por "Tailwind CSS IntelliSense" na aba de extensões do VS Code.
+
+### 2. Configure o `.vscode/settings.json`
+
+Crie/edite o arquivo `.vscode/settings.json` na raiz do seu projeto:
+
+```json
+{
+  "tailwindCSS.experimental.classRegex": [
+    ["tw`([^`]*)", "([\"'`][^\"'`]*[\"'`])"],
+    ["tw\\.[^`]+`([^`]*)", "([\"'`][^\"'`]*[\"'`])"],
+    ["tw\\(.*?\\).*?`([^`]*)", "([\"'`][^\"'`]*[\"'`])"]
+  ],
+  "tailwindCSS.includeLanguages": {
+    "typescript": "javascript",
+    "typescriptreact": "javascript"
+  },
+  "editor.quickSuggestions": {
+    "strings": true
+  }
+}
+```
+
+### 3. Resultado
+
+Agora você terá:
+
+- ✅ **Autocomplete** de classes Tailwind
+- ✅ **Preview de cores** ao passar o mouse
+- ✅ **Avisos** de classes inválidas
+- ✅ **Documentação** inline das classes
+
+```tsx
+const Button = tw.button`
+  px-4 py-2           // ← Autocomplete funcionando!
+  bg-blue-500         // ← Preview da cor #3B82F6
+  hover:bg-blue-600   // ← Sugestões de variantes
+  text-white
+`;
+```
+
+**Dica:** Comece a digitar dentro do template literal e pressione `Ctrl + Space` para ativar o autocomplete manualmente.
+
+### Como Testar
+
+Crie um arquivo de teste e comece a digitar:
+
+```tsx
+import tw from "tailwindcss-styled";
+
+const Test = tw.div`
+  bg-  // ← Pressione Ctrl+Space aqui para ver as sugestões
+`;
+```
+
+Se o autocomplete aparecer, está funcionando! 🎉
+
+### Configuração Global (Opcional)
+
+Para aplicar em todos os projetos, adicione no **User Settings** do VS Code:
+
+1. Pressione `Ctrl/Cmd + Shift + P`
+2. Digite "Preferences: Open User Settings (JSON)"
+3. Adicione as mesmas configurações acima
+
+### Outros Editores
+
+**WebStorm / IntelliJ IDEA:**
+
+A extensão oficial do Tailwind CSS já suporta template literals automaticamente. Basta ter o plugin Tailwind CSS instalado.
+
+**Neovim:**
+
+Use o [tailwindcss-language-server](https://github.com/tailwindlabs/tailwindcss-intellisense) com a seguinte configuração:
+
+```lua
+require('lspconfig').tailwindcss.setup({
+  settings = {
+    tailwindCSS = {
+      experimental = {
+        classRegex = {
+          { "tw`([^`]*)", "([\"'`][^\"'`]*[\"'`])" },
+          { "tw\\.[^`]+`([^`]*)", "([\"'`][^\"'`]*[\"'`])" },
+          { "tw\\(.*?\\).*?`([^`]*)", "([\"'`][^\"'`]*[\"'`])" },
+        },
+      },
+    },
+  },
+})
+```
+
+---
+
 ## 🚀 Uso Básico
 
 ```tsx
