@@ -39,5 +39,5 @@ export type ComponentFn<Tag extends ElementType> = StyledFn<
 export type Styled = {
   <Component extends ElementType>(comp: Component): ComponentFn<Component>;
 } & {
-  <Tag extends keyof JSX.IntrinsicElements>(tag: Tag): InstrinsicFn<Tag>;
+  [Tag in keyof JSX.IntrinsicElements]: InstrinsicFn<Tag>;
 };
