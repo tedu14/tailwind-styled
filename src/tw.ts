@@ -6,8 +6,9 @@ import {
   type JSX,
 } from "react";
 import type { ComponentFn, ComponentProps, Styled } from "./types";
-import { buildClasses, buildName, cleanClasses } from "./utils";
+import { buildClasses, buildName, cleanClasses, cn, generateId } from "./utils";
 import type { ClassValue } from "clsx";
+import { getComponentId, registerComponent } from "./components";
 
 function build<El extends ElementType>(element: El): ComponentFn<El> {
   return <P extends ComponentProps<El>>(
@@ -15,6 +16,7 @@ function build<El extends ElementType>(element: El): ComponentFn<El> {
     ...args: ClassValue[]
   ) => {
     type Ref = ComponentRef<El>;
+    const componentId = getComponentId(element) || generateId();
 
     const TwComponent = forwardRef<Ref, P>(function TwComponent(
       { className, ...props },
@@ -23,11 +25,16 @@ function build<El extends ElementType>(element: El): ComponentFn<El> {
       return createElement(element, {
         ...props,
         ref,
-        className: cleanClasses(buildClasses(template, args, { className })),
+        className: cn(
+          cleanClasses(buildClasses(template, args, { className })),
+          componentId
+        ),
       });
     });
 
     TwComponent.displayName = buildName(TwComponent);
+
+    registerComponent(TwComponent, componentId);
 
     return TwComponent;
   };
@@ -35,6 +42,11 @@ function build<El extends ElementType>(element: El): ComponentFn<El> {
 
 const base = ((component: ElementType) => build(component)) as Styled;
 
+/**
+ * The main function to build classes.
+ * @example tw.div`bg-blue-500 text-white`
+ * @example tw(Button)`bg-blue-500 text-white`
+ */
 export const tw: Styled = new Proxy(base, {
   get(_, key: PropertyKey) {
     return build(key as keyof JSX.IntrinsicElements);

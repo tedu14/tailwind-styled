@@ -65,6 +65,9 @@ Esta lib combina o melhor dos dois mundos: **a sintaxe elegante do styled-compon
 - 🔄 **Mesclagem inteligente**: Combina classes Tailwind automaticamente usando `tailwind-merge`
 - 💪 **Props dinâmicas**: Suporte para funções que recebem props
 - 🔗 **Forward refs**: Suporte completo para refs
+- 🆔 **IDs únicos**: Cada componente recebe automaticamente um ID único para seletores CSS
+- 🎨 **Referência de componentes**: Estilize componentes baseado em hierarquia (similar ao styled-components)
+- 🔧 **Variantes arbitrárias**: Aplique variantes personalizadas do Tailwind com `withVariant`
 - 📦 **Leve**: Dependências mínimas (clsx + tailwind-merge)
 
 ## 📦 Instalação
@@ -83,6 +86,16 @@ ou
 
 ```bash
 pnpm add tailwindcss-styled
+```
+
+### Importações Disponíveis
+
+```tsx
+// Import principal
+import tw from "tailwindcss-styled";
+
+// Funções utilitárias (v1.0.3+)
+import { withComponent, withVariant } from "tailwindcss-styled";
 ```
 
 ## ⚙️ Configuração do Editor (VS Code)
@@ -360,6 +373,123 @@ const OutlineButton = tw(BaseButton)`
 `;
 ```
 
+### Referência de Componentes
+
+Similar ao styled-components, você pode referenciar componentes estilizados para criar estilos condicionais baseados em hierarquia:
+
+```tsx
+import tw from "tailwindcss-styled";
+import { withComponent, withVariant } from "tailwindcss-styled";
+
+// Criar componente filho
+const Icon = tw.span`
+  inline-block w-4 h-4
+  text-gray-500
+`;
+
+const Button = tw.button`
+  px-4 py-2
+  bg-blue-500 text-white
+  rounded-lg
+`;
+
+// Estilizar componente baseado em onde o Icon está
+const MenuItem = tw.li`
+  px-4 py-2 cursor-pointer
+  hover:bg-gray-100
+  
+  ${withComponent(Icon, "text-blue-500")}
+  
+  ${withVariant("&:hover", withComponent(Icon, "text-blue-700"))}
+`;
+
+// Uso
+function Menu() {
+  return (
+    <ul>
+      <MenuItem>
+        <Icon>🏠</Icon> Home
+        {/* Icon será azul quando MenuItem estiver em hover */}
+      </MenuItem>
+    </ul>
+  );
+}
+```
+
+### Variantes Arbitrárias
+
+Use `withVariant` para aplicar variantes personalizadas do Tailwind:
+
+```tsx
+import { withVariant } from "tailwindcss-styled";
+
+const Card = tw.div`
+  p-6 bg-white rounded-lg
+  
+  ${withVariant("&:has(> img)", "p-0")}
+  ${withVariant("@media (min-width: 768px)", "p-8")}
+  ${withVariant("&[data-active='true']", "bg-blue-50 border-2 border-blue-500")}
+`;
+
+// Uso
+<Card data-active="true">
+  <img src="..." alt="..." />
+  <p>Conteúdo</p>
+</Card>;
+```
+
+### Componentes Aninhados
+
+Estilize componentes filhos quando dentro de containers específicos:
+
+```tsx
+const Button = tw.button`
+  bg-blue-500 text-white
+  px-4 py-2 rounded
+`;
+
+const Title = tw.h2`
+  text-2xl font-bold
+  text-gray-900
+`;
+
+const Card = tw.div`
+  p-6 bg-white rounded-lg shadow
+  
+  ${withComponent(Title, "text-blue-600 mb-4")}
+  ${withComponent(Button, "bg-green-500 hover:bg-green-600")}
+`;
+
+// Uso
+function ProductCard() {
+  return (
+    <Card>
+      <Title>Produto</Title> {/* Será azul */}
+      <p>Descrição</p>
+      <Button>Comprar</Button> {/* Será verde ao invés de azul */}
+    </Card>
+  );
+}
+```
+
+### IDs Únicos Automáticos
+
+Cada componente criado com `tw` recebe automaticamente um ID de classe único (ex: `tw-abc123`). Isso permite que você:
+
+- Crie seletores CSS específicos sem conflitos
+- Referencie componentes de forma segura
+- Mantenha estilos isolados e previsíveis
+
+```tsx
+const Button = tw.button`bg-blue-500`;
+// Automaticamente recebe uma classe como "tw-1j2k3l4m5n6o7p8q"
+
+const Container = tw.div`
+  ${withComponent(Button, "bg-red-500")}
+  // Usa o ID único do Button para aplicar estilos
+`;
+```
+
 ## 🔧 API
 
 ### `tw.element`
@@ -393,6 +523,96 @@ tw.div`
   static-classes
   ${(props) => (props.active ? "active-classes" : "inactive-classes")}
   ${(props) => props.size === "lg" && "large-classes"}
+`;
+```
+
+### Funções Utilitárias
+
+#### `withVariant(variant, className)`
+
+Aplica uma variante arbitrária do Tailwind a classes.
+
+**Parâmetros:**
+
+- `variant` (string): O seletor da variante (ex: `"&:hover"`, `"@media (min-width: 768px)"`)
+- `className` (ClassValue): As classes a serem aplicadas
+
+**Retorna:** String com classes prefixadas pela variante
+
+```tsx
+import { withVariant } from "tailwindcss-styled";
+
+const Button = tw.button`
+  px-4 py-2
+  ${withVariant("&:hover", "bg-blue-600 scale-105")}
+  ${withVariant("&[disabled]", "opacity-50 cursor-not-allowed")}
+  ${withVariant("@media (min-width: 768px)", "px-6 py-3")}
+`;
+```
+
+#### `withComponent(component, className)`
+
+Aplica classes quando um componente específico está dentro do contexto.
+
+**Parâmetros:**
+
+- `component` (ElementType): O componente a referenciar
+- `className` (ClassValue): As classes a serem aplicadas
+
+**Retorna:** String com classes prefixadas pelo seletor do componente
+
+```tsx
+import { withComponent } from "tailwindcss-styled";
+
+const Icon = tw.span`w-4 h-4`;
+const Button = tw.button`
+  flex items-center gap-2
+  ${withComponent(Icon, "text-white")}
+`;
+
+// Uso
+<Button>
+  <Icon>🏠</Icon> Home
+</Button>;
+```
+
+### Exemplos Avançados
+
+#### Combinando `withVariant` e `withComponent`
+
+```tsx
+const Badge = tw.span`
+  px-2 py-1 rounded
+  bg-gray-200 text-gray-800
+`;
+
+const Card = tw.div`
+  p-6 bg-white rounded-lg
+  
+  ${withComponent(Badge, "bg-blue-100 text-blue-800")}
+  ${withVariant("&:hover", withComponent(Badge, "bg-blue-200"))}
+`;
+```
+
+#### Estados Complexos
+
+```tsx
+const Input = tw.input`
+  px-4 py-2 border rounded
+  ${withVariant("&:focus", "border-blue-500 ring-2 ring-blue-200")}
+  ${withVariant("&:invalid", "border-red-500")}
+  ${withVariant("&:disabled", "bg-gray-100 cursor-not-allowed")}
+`;
+```
+
+#### Media Queries
+
+```tsx
+const Container = tw.div`
+  px-4
+  ${withVariant("@media (min-width: 640px)", "px-6")}
+  ${withVariant("@media (min-width: 1024px)", "px-8")}
+  ${withVariant("@media (min-width: 1280px)", "px-12")}
 `;
 ```
 
@@ -445,7 +665,8 @@ MIT © [Thalison Eduardo](https://github.com/tedu14)
 ## 🔗 Links
 
 - [GitHub](https://github.com/tedu14/tailwind-styled)
-- [npm](https://www.npmjs.com/package/tailwind-styled)
+- [npm](https://www.npmjs.com/package/tailwindcss-styled)
+- [CHANGELOG](./CHANGELOG.md) - Histórico de versões e mudanças
 
 ## ⚡ Requisitos
 

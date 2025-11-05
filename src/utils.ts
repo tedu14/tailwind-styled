@@ -47,3 +47,39 @@ export function buildName(element: ElementType): string {
       return name + (element.displayName ?? element.name ?? element.toString());
   }
 }
+
+export function generateId(): string {
+  const prefix = "tw-";
+  const timestamp = Date.now().toString(36).slice(-8);
+  const array = new Uint8Array(8);
+  const counter = Math.floor(performance.now() * 1000)
+    .toString(36)
+    .slice(-4);
+
+  if (typeof window !== "undefined") {
+    window.crypto.getRandomValues(array);
+  } else {
+    for (let i = 0; i < array.length; i++) {
+      array[i] = Math.floor(Math.random() * 256);
+    }
+  }
+
+  const random = Array.from(array, (byte) =>
+    (byte % 36).toString(36).slice(-8)
+  ).join("");
+
+  return [prefix, timestamp, random, counter].join("");
+}
+
+export function getClasses(classes: ClassValue) {
+  return cleanClasses(cn(classes)).split(" ");
+}
+
+export function getComponentName(element: ElementType) {
+  switch (typeof element) {
+    case "string":
+      return element;
+    default:
+      return element.displayName ?? element.name ?? element.toString();
+  }
+}
