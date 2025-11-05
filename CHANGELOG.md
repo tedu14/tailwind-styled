@@ -5,6 +5,25 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+## [1.0.2] - 2025-11-05
+
+### Adicionado
+
+- 📦 Exportação automática de tipos TypeScript
+- 🔧 Plugin `vite-plugin-dts` para geração de arquivos `.d.ts`
+
+### Melhorado
+
+- 🎯 Suporte completo ao TypeScript sem necessidade de instalar `@types/tailwindcss-styled`
+- 💡 IntelliSense e autocomplete aprimorados para usuários TypeScript
+- 📝 Tipos sempre sincronizados com a versão instalada da biblioteca
+
+### Técnico
+
+- Adicionado `vite-plugin-dts@^4.5.4` como dependência de desenvolvimento
+- Configurado plugin DTS no `vite.config.ts` para gerar definições de tipos automaticamente
+- Atualizado `src/index.ts` para importar explicitamente todos os tipos públicos
+
 ## [1.0.1] - 2025-11-03
 
 ### Corrigido
