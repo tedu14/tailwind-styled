@@ -8,6 +8,7 @@ export default defineConfig({
       insertTypesEntry: true,
       include: ["src/*.ts"],
       exclude: ["**/*.spec.ts", "**/*.test.ts"],
+      rollupTypes: true,
     }),
   ],
   build: {
